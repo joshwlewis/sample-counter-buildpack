@@ -1,0 +1,13 @@
+api = "0.6"
+
+[buildpack]
+id = "sample-counter"
+version = "0.1.0"
+name = "Sample Counter"
+clear-env = true
+
+[[buildpack.licenses]]
+type = "BSD-3-Clause"
+
+[[stacks]]
+id = "*"
