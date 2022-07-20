@@ -9,7 +9,7 @@ use libcnb::{
     Buildpack,
 };
 use serde::{Deserialize, Serialize};
-use std::path::Path;
+use std::{fs, path::Path};
 
 struct SampleBuildpack;
 
@@ -80,11 +80,13 @@ impl Layer for CountingLayer {
 
     fn migrate_incompatible_metadata(
         &self,
-        _ctx: &BuildContext<Self::Buildpack>,
+        ctx: &BuildContext<Self::Buildpack>,
         metadata: &GenericMetadata,
     ) -> Result<MetadataMigration<Self::Metadata>, <Self::Buildpack as Buildpack>::Error> {
         println!("Previous layer data invalid!!!");
         println!("metadata: {metadata:?}");
+        let toml = fs::read_to_string(&ctx.layers_dir.join("counting.toml")).unwrap();
+        println!("File content: {toml}");
         Ok(MetadataMigration::RecreateLayer)
     }
 }
